@@ -9,7 +9,8 @@ int cv[5]; // xe dung hen
 int x[5]={1,2,3,4,5};// so thu tu cua xe
 int y[5]={6,3,5,7,2};//thoi gian sua chua xe
 int z[5]={8,4,15,20,3};//thoi diem ban giao xe
-int hieusongay[5]; // songay luu hieu cua z-y;
+int hieusongay[5]; // luu hieu so ngay cua z-y;
+int songaythua[5]; // so ngay thua ra sau moi lan sua chua xe
 int tong1;
 int tong2;
 
@@ -52,10 +53,10 @@ void Ghifile(FILE *f,const char *duongdan1){ //ghi cac ptu vao file
 
 
 void Docfile(const char *duongdan1,const char *duongdan2){
-//	int n; // tong so xe o to
-//	int x;// so thu tu cua xe
-//	int y;//thoi gian sua chua xe
-//	int z;//thoi diem ban giao xe
+//	 n;  tong so xe o to
+//	 x; so thu tu cua xe
+//	 y; thoi gian sua chua xe
+//	 z; thoi diem ban giao xe
 	ifstream doc;
 	doc.open(duongdan1);
 	fstream ghi;
@@ -98,7 +99,7 @@ void Docfile(const char *duongdan1,const char *duongdan2){
 			
 		}
 		
-	}	
+	}	 // ko close file de xuong duoi co the ghi tiep noi dung vao
 }
 
 void Xuat(){
@@ -112,27 +113,31 @@ void Xuat(){
 	
 		}
 }
-void Xuatkq(){
+void Xuatkq(){ // tiep tuc ghi noi dung vao file kq
 		fstream ghi;
-	ghi.open("fxuat.txt", ios::out | ios::app);
+		ghi.open("fxuat.txt", ios::out | ios::app); // ios::app khai bao de tiep tuc ghi vao file o tren.
 		printf("\nTen xe dung hen: ");
 		ghi<<"\nTen xe dung hen: "<<endl;
 		for(int i=0; i<n;i++){
 			printf("%d\t",cv[i]);
 			ghi<<cv[i]<<" ";	
 		}
-			
+			//-----------------------------Phan duoi chi xuat ra man hinh
 		printf("\nHieu so ngay xe oto: ");			
 		for(int i=0; i<n;i++)
 			printf("%d\t",hieusongay[i]);
 		
+		printf("\nSo ngay sua con du sau moi lan sua xe oto: ");			
+		for(int i=0; i<n;i++)
+			printf("%d\t",songaythua[i]);
+			
 		printf("\nTong so ngay thuc hien: ");	
 			printf("%d\t",tong2);
 			
 		printf("\nTong so xe dung hen: ");
 			printf("%d\t",tong1);
 
-	 printf("\nXuat kq thanh cong!\n");
+	 printf("\n\nXuat kq thanh cong!\n\n");
 }
 void Swap(int &a, int &b)
 {
@@ -162,11 +167,13 @@ void Sapxep(){
 	 for(int i=0; i< n; i++){
 			
 		hieusongay[i]= z[i] - y[i];
-		
-			
+					
 			if( (tong2 + y[i]) <= z[i] ){
-				tong2+=y[i];
+				
+				tong2+=y[i]; 
 				tong1+=1;
+				songaythua[i]= z[i] - tong2;
+				
 				printf("\nNhap cv thanh cong!\n");
 				
 				cv[i]=x[i];	
@@ -174,20 +181,20 @@ void Sapxep(){
 				
 			}
 			else{
-				if (i== n-1) {
+				if (i== n-1) {  // TH xe o cuoi khong thoa man dkien -> xoa nhung xe khong dung han
 					n--;
 					return;
 				}
-				tamx = x[i];
+				tamx = x[i]; // chuyen xe ko thoa dkien xuong cuoi
 				tamy = y[i];
 				tamz = z[i];
-				for(int j = i; j < n; j++)
-				if(j== (n-1)){
+				for(int j = i; j < n; j++) //xet vi tri i cua xe
+				if(j== (n-1)){ // neu no dang vi tri cuoi thi = chinh no
 					x[j] = tamx;
 					y[j] = tamy;
 					z[j] = tamz;
 				}
-				else{					
+				else{				// nguoc lai, chuyen xe ra sau 1 vi tri j+1
 				
 				x[j] = x[j+1];
 				y[j] = y[j+1];
@@ -201,13 +208,13 @@ void Sapxep(){
 
 int main(){
 	FILE*fa;
-	const char *duongdan1 = "D:/Thuctap/GIBHUB/tuan3/fghi.txt";
-	const char *duongdan2 = "D:/Thuctap/GIBHUB/tuan3/fxuat.txt";
+	const char *duongdan1 = "fghi.txt";
+	const char *duongdan2 = "fxuat.txt";
 	
 //	Ghifile(fa,duongdan1); // tu tao file nhap du lieu tu ban phim
 	printf("\nDoc file : \n");
 	Docfile(duongdan1,duongdan2);
-	printf("Da doc va ghi file xong!");
+	printf("\n\nDa doc va ghi file xong!\n");
 	Xuat();	
 	
 	printf("\nBat dau xep: \n"); 
